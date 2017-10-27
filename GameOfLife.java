@@ -17,18 +17,27 @@ public class GameOfLife
 	  generateUniverse("glider.txt");
 
   }
-  
+  /**
+   * Creates universe + its generations
+   * @param filename
+   */
   private static void generateUniverse(String string) {
+	  assert string != "" : "String is empty";
 	  Cell[][] cell = readUniverseFile(string);
 	  while(true) {
 		  showUniverse(cell);
 		  sleep(50);
 		  cell = nextGeneration(cell);
 	  }
-}
+  }
 
-static Cell[][] readUniverseFile(String fileName)
-  {
+  /**
+   * Fills universe array with data from file
+   * @param fileName
+   * @return
+   */
+  static Cell[][] readUniverseFile(String fileName) {
+	  assert fileName != "" : "String is empty";
 	  Cell[][] cell = new Cell[40][60];
 	  try {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
@@ -59,8 +68,13 @@ static Cell[][] readUniverseFile(String fileName)
 	}
 	  return cell;
   }
-
+  /**
+   * Self explanatory. Used in readUniverseFile()
+   * @param x
+   * @param y
+   */
   private static void checkNumberOfRowsAndColumns(int x, int y) {
+	  assert true;
 	  if (x != 40) {
 			throw new IllegalArgumentException ("There aren't 40 rows");
 		}
@@ -68,7 +82,10 @@ static Cell[][] readUniverseFile(String fileName)
 			throw new IllegalArgumentException ("There aren't 60 columns");
 		}
   }
-
+  /**
+   * Updates the screen with array data
+   * @param universe
+   */
   private static void showUniverse(Cell[][] universe)
   {
 	  for (int row = 0; row <= 39; row++) {
@@ -77,7 +94,11 @@ static Cell[][] readUniverseFile(String fileName)
 		  }
 	  }
   }
-  
+  /**
+   * Calculates the next generation from the current universe array and puts it in a new array
+   * @param universe
+   * @return next generation
+   */
   private static Cell[][] nextGeneration(Cell[][] universe)
   {
 	  Cell[][] nextUniverse = deadUniverse();
@@ -97,6 +118,10 @@ static Cell[][] readUniverseFile(String fileName)
 	  return nextUniverse;
   }
 
+  /**
+   * Fills a universe with dead cells
+   * @return universe
+   */
   private static Cell[][] deadUniverse() {
 	  Cell[][] deadUniverse = new Cell[40][60];
 	  for (int row = 0; row <= 39; row++) {
@@ -107,6 +132,13 @@ static Cell[][] readUniverseFile(String fileName)
 	return deadUniverse;
 }
 
+  /**
+   * Counts the amount of neighbors around a cell (including the cell <-- MUST FIX)
+   * @param row
+   * @param col
+   * @param universe
+   * @return aliveCounter
+   */
 private static int countNeighbors(int row, int col, Cell[][] universe) {
 	int aliveCounter = 0;
 	for (int x = -1; x <= 1; x++)
